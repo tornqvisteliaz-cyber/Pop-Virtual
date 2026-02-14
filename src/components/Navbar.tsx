@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import logo from "@/assets/logo.webp";
 
 const links = [
   { label: "About", href: "#about" },
@@ -14,8 +16,9 @@ const Navbar = () => {
   return (
     <nav className="fixed top-0 z-50 w-full border-b border-border bg-background/80 backdrop-blur-md">
       <div className="container mx-auto flex max-w-5xl items-center justify-between px-6 py-3">
-        <a href="#hero" className="font-display text-lg font-bold text-foreground">
-          My VA Pop
+        <a href="#hero" className="flex items-center gap-2 font-display text-lg font-bold text-foreground">
+          <img src={logo} alt="Pop! Airways" className="h-8" />
+          Pop! Airways
         </a>
 
         {/* Desktop */}
@@ -42,20 +45,30 @@ const Navbar = () => {
       </div>
 
       {/* Mobile menu */}
-      {open && (
-        <div className="border-t border-border bg-background px-6 py-4 sm:hidden">
-          {links.map((l) => (
-            <a
-              key={l.href}
-              href={l.href}
-              onClick={() => setOpen(false)}
-              className="block py-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
-            >
-              {l.label}
-            </a>
-          ))}
-        </div>
-      )}
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.25 }}
+            className="overflow-hidden border-t border-border bg-background px-6 sm:hidden"
+          >
+            <div className="py-4">
+              {links.map((l) => (
+                <a
+                  key={l.href}
+                  href={l.href}
+                  onClick={() => setOpen(false)}
+                  className="block py-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
+                >
+                  {l.label}
+                </a>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </nav>
   );
 };
