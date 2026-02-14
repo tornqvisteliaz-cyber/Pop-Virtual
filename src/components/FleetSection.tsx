@@ -1,33 +1,72 @@
+import { motion } from "framer-motion";
+import { Package } from "lucide-react";
+
 const fleet = [
-  { type: "Boeing 737-800", role: "Short-haul workhorse" },
-  { type: "Airbus A320neo", role: "European routes" },
-  { type: "Boeing 777-300ER", role: "Long-haul flagship" },
-  { type: "Cessna 172", role: "Training & VFR" },
+  { type: "Airbus A319", role: "Short-haul" },
+  { type: "Airbus A320", role: "Core narrowbody" },
+  { type: "Airbus A321", role: "High-capacity short-haul" },
+  { type: "Airbus A350-900", role: "Long-haul flagship" },
+  { type: "Boeing 777-300ER", role: "Long-haul widebody" },
+  { type: "ATR 72", role: "Cargo", cargo: true },
+  { type: "Airbus A330-200", role: "Cargo", cargo: true },
 ];
+
+const container = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.08 } },
+};
+
+const item = {
+  hidden: { opacity: 0, x: -20 },
+  show: { opacity: 1, x: 0, transition: { duration: 0.4 } },
+};
 
 const FleetSection = () => {
   return (
     <section className="border-t border-border py-20" id="fleet">
       <div className="container mx-auto max-w-4xl px-6">
-        <h2 className="font-display text-3xl font-bold text-foreground sm:text-4xl">
+        <motion.h2
+          className="font-display text-3xl font-bold text-foreground sm:text-4xl"
+          initial={{ opacity: 0, x: -20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+        >
           Fleet
-        </h2>
-        <p className="mt-4 text-muted-foreground">
+        </motion.h2>
+        <motion.p
+          className="mt-4 text-muted-foreground"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+        >
           We keep it simple. Fly what you have — these are our focus aircraft.
-        </p>
-        <div className="mt-10 grid gap-4 sm:grid-cols-2">
+        </motion.p>
+        <motion.div
+          className="mt-10 grid gap-4 sm:grid-cols-2"
+          variants={container}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true }}
+        >
           {fleet.map((a) => (
-            <div
+            <motion.div
               key={a.type}
+              variants={item}
+              whileHover={{ scale: 1.02, transition: { duration: 0.2 } }}
               className="flex items-center justify-between rounded-lg border border-border bg-card p-5"
             >
               <span className="font-display font-semibold text-foreground">
                 {a.type}
               </span>
-              <span className="text-sm text-muted-foreground">{a.role}</span>
-            </div>
+              <span className="flex items-center gap-2 text-sm text-muted-foreground">
+                {a.cargo && <Package className="h-4 w-4 text-primary" />}
+                {a.role}
+              </span>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

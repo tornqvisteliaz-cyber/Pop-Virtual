@@ -1,4 +1,5 @@
 import { Plane, Globe, Users } from "lucide-react";
+import { motion } from "framer-motion";
 
 const features = [
   {
@@ -18,21 +19,54 @@ const features = [
   },
 ];
 
+const container = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.15 } },
+};
+
+const item = {
+  hidden: { opacity: 0, y: 30 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+};
+
 const AboutSection = () => {
   return (
     <section className="border-t border-border bg-card py-20" id="about">
       <div className="container mx-auto max-w-4xl px-6">
-        <h2 className="font-display text-3xl font-bold text-foreground sm:text-4xl">
+        <motion.h2
+          className="font-display text-3xl font-bold text-foreground sm:text-4xl"
+          initial={{ opacity: 0, x: -20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+        >
           About Us
-        </h2>
-        <p className="mt-4 max-w-2xl text-muted-foreground">
-          My VA Pop is a virtual airline for flight sim pilots who want
+        </motion.h2>
+        <motion.p
+          className="mt-4 max-w-2xl text-muted-foreground"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+        >
+          Pop! Airways is a virtual airline for flight sim pilots who want
           structure without bureaucracy. Casual or serious — fly at your own
           pace with a crew that gets it.
-        </p>
-        <div className="mt-12 grid gap-8 sm:grid-cols-3">
+        </motion.p>
+        <motion.div
+          className="mt-12 grid gap-8 sm:grid-cols-3"
+          variants={container}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true }}
+        >
           {features.map((f) => (
-            <div key={f.title} className="rounded-lg border border-border bg-secondary/50 p-6">
+            <motion.div
+              key={f.title}
+              variants={item}
+              whileHover={{ y: -6, transition: { duration: 0.2 } }}
+              className="rounded-lg border border-border bg-secondary/50 p-6"
+            >
               <f.icon className="h-8 w-8 text-primary" />
               <h3 className="mt-4 font-display text-lg font-semibold text-foreground">
                 {f.title}
@@ -40,9 +74,9 @@ const AboutSection = () => {
               <p className="mt-2 text-sm text-muted-foreground">
                 {f.description}
               </p>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );
