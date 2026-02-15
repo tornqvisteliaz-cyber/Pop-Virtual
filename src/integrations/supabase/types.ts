@@ -14,6 +14,33 @@ export type Database = {
   }
   public: {
     Tables: {
+      fleet: {
+        Row: {
+          cargo: boolean
+          created_at: string
+          id: string
+          role: string
+          sort_order: number
+          type: string
+        }
+        Insert: {
+          cargo?: boolean
+          created_at?: string
+          id?: string
+          role: string
+          sort_order?: number
+          type: string
+        }
+        Update: {
+          cargo?: boolean
+          created_at?: string
+          id?: string
+          role?: string
+          sort_order?: number
+          type?: string
+        }
+        Relationships: []
+      }
       posts: {
         Row: {
           category: string
