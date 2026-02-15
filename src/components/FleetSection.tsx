@@ -1,15 +1,7 @@
 import { motion } from "framer-motion";
 import { Package } from "lucide-react";
-
-const fleet = [
-  { type: "Airbus A319", role: "Short-haul" },
-  { type: "Airbus A320", role: "Core narrowbody" },
-  { type: "Airbus A321", role: "High-capacity short-haul" },
-  { type: "Airbus A350-900", role: "Long-haul flagship" },
-  { type: "Boeing 777-300ER", role: "Long-haul widebody" },
-  { type: "ATR 72", role: "Cargo", cargo: true },
-  { type: "Airbus A330-200", role: "Cargo", cargo: true },
-];
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 
 const container = {
   hidden: {},
@@ -22,6 +14,18 @@ const item = {
 };
 
 const FleetSection = () => {
+  const { data: fleet = [] } = useQuery({
+    queryKey: ["fleet"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("fleet")
+        .select("*")
+        .order("sort_order", { ascending: true });
+      if (error) throw error;
+      return data;
+    },
+  });
+
   return (
     <section className="border-t border-border py-20" id="fleet">
       <div className="container mx-auto max-w-4xl px-6">
@@ -52,7 +56,7 @@ const FleetSection = () => {
         >
           {fleet.map((a) => (
             <motion.div
-              key={a.type}
+              key={a.id}
               variants={item}
               whileHover={{ scale: 1.02, transition: { duration: 0.2 } }}
               className="flex items-center justify-between rounded-lg border border-border bg-card p-5"
