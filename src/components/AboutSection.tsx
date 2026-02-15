@@ -9,8 +9,8 @@ const features = [
   },
   {
     icon: Globe,
-    title: "VATSIM & IVAO",
-    description: "Online flying encouraged. Fly on the networks you love.",
+    title: "VATSIM",
+    description: "Online flying encouraged. Fly on the network you love.",
   },
   {
     icon: Users,
